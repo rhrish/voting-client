@@ -1,10 +1,10 @@
 var webpack = require('webpack');
 
-modules.export = {
+module.exports = {
   entry: [
-    'webpack-dev-server/client?http://localhost:8080',
+    'webpack-dev-server/client?http://192.168.99.100:8080',
     'webpack/hot/only-dev-server',
-    './src/index.js'
+    './src/index.jsx'
   ],
   module: {
     loaders: [{
@@ -24,6 +24,9 @@ modules.export = {
   devServer: {
     contentBase: './dist',
     hot: true
+  },
+  watchOptions: {
+    poll: true
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin()
