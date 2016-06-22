@@ -3,4 +3,4 @@ import ReactDom from 'react-dom';
 import Voting from './components/Voting';
 
 const pair = ['Rambo','Sunshine'];
-ReactDom.render(<Voting pair={pair} />,document.getElementById('app'));
+ReactDom.render(<Voting pair={pair}/>,document.getElementById('app'));
