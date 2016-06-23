@@ -4,6 +4,7 @@ import {renderIntoDocument,
 scryRenderedDOMComponentsWithTag, Simulate} from 'react-addons-test-utils';
 import {expect} from 'chai';
 import Voting from '../../src/components/Voting';
+import {List} from 'immutable';
 
 describe('Voting', () => {
   it('renders a pair of buttons', () => {
@@ -48,6 +49,36 @@ describe('Voting', () => {
     const winner = ReactDom.findDOMNode(component.refs.winner);
     expect(winner).to.be.ok;
     expect(winner.textContent).to.contain('Rambo')
+  });
+
+  it('renders as a pure component', () => {
+    const pair = ['Rambo', 'Dracula'];
+    const container = document.createElement('div');
+    let component = ReactDom.render(<Voting pair={pair} />, container);
+
+    let buttons = scryRenderedDOMComponentsWithTag(component, 'button');
+    expect(buttons[0].textContent).to.contain('Rambo');
+
+    pair[0] = 'Sunshine'
+    component = ReactDom.render(<Voting pair={pair} />, container);
+    buttons = scryRenderedDOMComponentsWithTag(component, 'button');
+    expect(buttons[0].textContent).to.contain('Rambo');
+  });
+
+  it('does update the DOM when prop changes', () => {
+    const pair = List.of('Rambo','Dracula');
+    const container = document.createElement('div');
+    let component = ReactDom.render(<Voting pair={pair} />, container);
+
+    let buttons = scryRenderedDOMComponentsWithTag(component, 'button');
+    expect(buttons[0].textContent).to.contain('Rambo');
+
+    const newPair = pair.set(0, 'Sunshine')
+    component = ReactDom.render(<Voting pair={newPair} />, container);
+    buttons = scryRenderedDOMComponentsWithTag(component, 'button');
+    expect(buttons[0].textContent).to.contain('Sunshine');
+
+
   });
 
 });
